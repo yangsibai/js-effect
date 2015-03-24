@@ -18,6 +18,10 @@
 </head>
 <body>
 <div id="effect"></div>
+<div>
+    <button onclick="pushLeft()">push left</button>
+    <button onclick="pushRight()">push right</button>
+</div>
 <script>
     (function(){
         "use strict";
@@ -31,8 +35,14 @@
             src: imgs[0]
         });
 
-        effect.pushLeft(imgs[1]);
+        effect.pushRight(imgs[1]);
 
+        window.pushLeft = function(){
+            effect.pushLeft(imgs[1]);
+        };
+        window.pushRight = function(){
+            effect.pushRight(imgs[0]);
+        };
     })();
 </script>
 </body>
