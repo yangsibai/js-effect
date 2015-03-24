@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="./lib.js"></script>
+    <style>
+        html, body{
+            width: 100%;
+            height: 100%;
+        }
+        #effect {
+            width: 219px;
+            height: 390px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="effect"></div>
+<script>
+    (function(){
+        "use strict";
+        var imgs = [
+                "https://file.mockplus.cn/webapp/project/pPuIL2qjV/f8IEvgPZ7.png",
+                "https://file.mockplus.cn/webapp/project/pPuIL2qjV/fOH6gGLOV.png",
+                "https://file.mockplus.cn/webapp/project/pPuIL2qjV/fE145DI1x.png"
+        ];
+        var effect = new Effect({
+            elem: document.getElementById('effect'),
+            src: imgs[0]
+        });
+
+        effect.pushLeft(imgs[1]);
+
+    })();
+</script>
+</body>
+</html>
