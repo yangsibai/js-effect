@@ -7,6 +7,7 @@
     img = document.createElement('img');
     img.style.width = '100%';
     img.style.height = '100%';
+    img.style.position = 'absolute';
     img.src = src;
     for (k in style) {
       img.style[k] = style[k];
@@ -72,7 +73,6 @@
 
     Effect.prototype.pushRight = function(imgURL) {
       return _createImg(imgURL, {
-        position: 'absolute',
         left: '-100%',
         top: '0%'
       }, (function(_this) {
@@ -99,9 +99,7 @@
     };
 
     Effect.prototype.pushDown = function(imgURL) {
-      _createImg(imgURL);
       return _createImg(imgURL, {
-        position: 'absolute',
         top: '-100%',
         left: '0%'
       }, (function(_this) {
@@ -129,7 +127,6 @@
 
     Effect.prototype.pushUp = function(imgURL) {
       return _createImg(imgURL, {
-        position: 'absolute',
         top: '100%',
         left: '0%'
       }, (function(_this) {

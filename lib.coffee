@@ -2,6 +2,7 @@ _createImg = (src, style, cb)->
     img = document.createElement('img')
     img.style.width = '100%'
     img.style.height = '100%'
+    img.style.position = 'absolute'
     img.src = src
     for k of style
         img.style[k] = style[k]
@@ -54,7 +55,6 @@ class Effect
 
     pushRight: (imgURL)->
         _createImg imgURL,
-            position: 'absolute'
             left: '-100%'
             top: '0%'
         , (newImg)=>
@@ -77,9 +77,7 @@ class Effect
             requestAnimationFrame func
 
     pushDown: (imgURL)->
-        _createImg(imgURL)
         _createImg imgURL,
-            position: 'absolute'
             top: '-100%'
             left: '0%'
         , (newImg)=>
@@ -103,7 +101,6 @@ class Effect
 
     pushUp: (imgURL)->
         _createImg imgURL,
-            position: 'absolute'
             top: '100%'
             left: '0%'
         , (newImg)=>
