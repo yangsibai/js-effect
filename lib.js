@@ -2,13 +2,18 @@
 (function() {
   var Effect, percentAdd, perfectToDecimal, _createImg;
 
-  _createImg = function(src) {
-    var img;
+  _createImg = function(src, style, cb) {
+    var img, k;
     img = document.createElement('img');
     img.style.width = '100%';
     img.style.height = '100%';
     img.src = src;
-    return img;
+    for (k in style) {
+      img.style[k] = style[k];
+    }
+    return img.onload = function() {
+      return cb(img);
+    };
   };
 
   perfectToDecimal = function(per) {
@@ -23,100 +28,131 @@
 
   Effect = (function() {
     function Effect(options) {
-      var img;
       this.parent = options.elem;
       this.parent.style.position = 'relative';
       this.parent.style.overflow = 'hidden';
-      img = _createImg(options.src);
-      img.style.position = 'absolute';
-      img.style.left = '0%';
-      img.style.top = '0%';
-      this.current = img;
-      this.parent.appendChild(img);
+      _createImg(options.src, {
+        position: 'absolute',
+        left: '0%',
+        top: '0%'
+      }, (function(_this) {
+        return function(img) {
+          _this.current = img;
+          return _this.parent.appendChild(img);
+        };
+      })(this));
     }
 
     Effect.prototype.pushLeft = function(imgURL) {
-      var delta, finish, func, newImg;
-      newImg = _createImg(imgURL);
-      newImg.style.position = 'absolute';
-      newImg.style.left = '100%';
-      newImg.style.top = '0%';
-      this.parent.appendChild(newImg);
-      delta = 1;
-      finish = (function(_this) {
-        return function() {
-          _this.parent.removeChild(_this.current);
-          return _this.current = newImg;
-        };
-      })(this);
-      func = (function(_this) {
-        return function() {
-          if (perfectToDecimal(_this.current.style.left) <= -1) {
-            finish();
-            return;
-          }
-          _this.current.style.left = percentAdd(_this.current.style.left, -delta);
-          newImg.style.left = percentAdd(newImg.style.left, -delta);
+      return _createImg(imgURL, {
+        left: '100%',
+        top: '0%'
+      }, (function(_this) {
+        return function(newImg) {
+          var delta, finish, func;
+          _this.parent.appendChild(newImg);
+          delta = 1;
+          finish = function() {
+            _this.parent.removeChild(_this.current);
+            return _this.current = newImg;
+          };
+          func = function() {
+            if (perfectToDecimal(_this.current.style.left) <= -1) {
+              finish();
+              return;
+            }
+            _this.current.style.left = percentAdd(_this.current.style.left, -delta);
+            newImg.style.left = percentAdd(newImg.style.left, -delta);
+            return requestAnimationFrame(func);
+          };
           return requestAnimationFrame(func);
         };
-      })(this);
-      return requestAnimationFrame(func);
+      })(this));
     };
 
     Effect.prototype.pushRight = function(imgURL) {
-      var delta, finish, func, newImg;
-      newImg = _createImg(imgURL);
-      newImg.style.position = 'absolute';
-      newImg.style.left = '-100%';
-      newImg.style.top = '0%';
-      this.parent.appendChild(newImg);
-      finish = (function(_this) {
-        return function() {
-          _this.parent.removeChild(_this.current);
-          return _this.current = newImg;
-        };
-      })(this);
-      delta = 1;
-      func = (function(_this) {
-        return function() {
-          if (perfectToDecimal(_this.current.style.left) >= 1) {
-            finish();
-            return;
-          }
-          _this.current.style.left = percentAdd(_this.current.style.left, delta);
-          newImg.style.left = percentAdd(newImg.style.left, delta);
+      return _createImg(imgURL, {
+        position: 'absolute',
+        left: '-100%',
+        top: '0%'
+      }, (function(_this) {
+        return function(newImg) {
+          var delta, finish, func;
+          _this.parent.appendChild(newImg);
+          finish = function() {
+            _this.parent.removeChild(_this.current);
+            return _this.current = newImg;
+          };
+          delta = 1;
+          func = function() {
+            if (perfectToDecimal(_this.current.style.left) >= 1) {
+              finish();
+              return;
+            }
+            _this.current.style.left = percentAdd(_this.current.style.left, delta);
+            newImg.style.left = percentAdd(newImg.style.left, delta);
+            return requestAnimationFrame(func);
+          };
           return requestAnimationFrame(func);
         };
-      })(this);
-      return requestAnimationFrame(func);
+      })(this));
     };
 
     Effect.prototype.pushDown = function(imgURL) {
-      var delta, finish, func, newImg;
-      newImg = _createImg(imgURL);
-      newImg.style.position = "absolute";
-      newImg.style.top = '-100%';
-      newImg.style.left = '0%';
-      this.parent.appendChild(newImg);
-      finish = (function(_this) {
-        return function() {
-          _this.parent.removeChild(_this.current);
-          return _this.current = newImg;
-        };
-      })(this);
-      delta = 1;
-      func = (function(_this) {
-        return function() {
-          if (perfectToDecimal(_this.current.style.top) >= 1) {
-            finish();
-            return;
-          }
-          _this.current.style.top = percentAdd(_this.current.style.top, delta);
-          newImg.style.top = percentAdd(newImg.style.top, delta);
+      _createImg(imgURL);
+      return _createImg(imgURL, {
+        position: 'absolute',
+        top: '-100%',
+        left: '0%'
+      }, (function(_this) {
+        return function(newImg) {
+          var delta, finish, func;
+          _this.parent.appendChild(newImg);
+          finish = function() {
+            _this.parent.removeChild(_this.current);
+            return _this.current = newImg;
+          };
+          delta = 1;
+          func = function() {
+            if (perfectToDecimal(_this.current.style.top) >= 1) {
+              finish();
+              return;
+            }
+            _this.current.style.top = percentAdd(_this.current.style.top, delta);
+            newImg.style.top = percentAdd(newImg.style.top, delta);
+            return requestAnimationFrame(func);
+          };
           return requestAnimationFrame(func);
         };
-      })(this);
-      return requestAnimationFrame(func);
+      })(this));
+    };
+
+    Effect.prototype.pushUp = function(imgURL) {
+      return _createImg(imgURL, {
+        position: 'absolute',
+        top: '100%',
+        left: '0%'
+      }, (function(_this) {
+        return function(newImg) {
+          var delta, finish, func;
+          _this.parent.appendChild(newImg);
+          finish = function() {
+            _this.parent.removeChild(_this.current);
+            return _this.current = newImg;
+          };
+          delta = 1;
+          func = function() {
+            if (perfectToDecimal(_this.current.style.top) <= -1) {
+              finish();
+              return;
+            }
+            _this.current.style.top = percentAdd(_this.current.style.top, -delta);
+            newImg.style.top = percentAdd(newImg.style.top, -delta);
+            return requestAnimationFrame(func);
+          };
+          return requestAnimationFrame(func);
+        };
+      })(this));
     };
 
     return Effect;
