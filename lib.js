@@ -34,6 +34,7 @@
       img.style.width = '100%';
       img.style.height = '100%';
       img.style.position = 'absolute';
+      img.style.opacity = '1';
       img.src = src;
       for (k in style) {
         img.style[k] = style[k];
@@ -48,7 +49,8 @@
 
     Effect.prototype._finish = function() {
       this.parent.removeChild(this.current);
-      return this.current = this.animate;
+      this.current = this.animate;
+      return this.animating = false;
     };
 
     Effect.prototype._hasFinishAnimate = function() {
@@ -68,21 +70,24 @@
     };
 
     Effect.prototype._animate = function(src, style, func) {
-      return this._insertImg(src, style, (function(_this) {
-        return function(img) {
-          var lo;
-          _this.animate = img;
-          lo = function() {
-            if (_this._hasFinishAnimate()) {
-              _this._finish();
-              return;
-            }
-            func();
+      if (!this.animating) {
+        this.animating = true;
+        return this._insertImg(src, style, (function(_this) {
+          return function(img) {
+            var lo;
+            _this.animate = img;
+            lo = function() {
+              if (_this._hasFinishAnimate()) {
+                _this._finish();
+                return;
+              }
+              func();
+              return requestAnimationFrame(lo);
+            };
             return requestAnimationFrame(lo);
           };
-          return requestAnimationFrame(lo);
-        };
-      })(this));
+        })(this));
+      }
     };
 
     Effect.prototype.pushLeft = function(imgURL) {

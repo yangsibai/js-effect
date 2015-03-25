@@ -23,6 +23,7 @@ class Effect
         img.style.width = '100%'
         img.style.height = '100%'
         img.style.position = 'absolute'
+        img.style.opacity = '1'
         img.src = src
         for k of style
             img.style[k] = style[k]
@@ -33,6 +34,7 @@ class Effect
     _finish: ->
         @parent.removeChild(@current)
         @current = @animate
+        @animating = false
 
     _hasFinishAnimate: ->
         return @animate.style.top is '0%' and @animate.style.left is '0%' and @animate.style.opacity is '1'
@@ -47,16 +49,18 @@ class Effect
         elem.style[name] = percentAdd(elem.style[name], delta)
 
     _animate: (src, style, func)->
-        @_insertImg src, style, (img)=>
-            @animate = img
-            lo = =>
-                if @_hasFinishAnimate()
-                    @_finish()
-                    return
-                func()
-                requestAnimationFrame lo
+        unless @animating
+            @animating = true
+            @_insertImg src, style, (img)=>
+                @animate = img
+                lo = =>
+                    if @_hasFinishAnimate()
+                        @_finish()
+                        return
+                    func()
+                    requestAnimationFrame lo
 
-            requestAnimationFrame lo
+                requestAnimationFrame lo
 
     pushLeft: (imgURL)->
         @_animate imgURL,
