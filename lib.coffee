@@ -192,4 +192,28 @@ class Effect
 
             requestAnimationFrame func
 
+    slideRight: (imgURL)->
+        _createImg imgURL,
+            top: '0%'
+            left: '-100%'
+        , (newImg)=>
+            @parent.appendChild(newImg)
+
+            finish = =>
+                @parent.removeChild(@current)
+                @current = newImg
+
+            delta = 1
+
+            func = =>
+                if perfectToDecimal(newImg.style.left) >= 0
+                    finish()
+                    return
+
+                newImg.style.left = percentAdd(newImg.style.left, delta)
+
+                requestAnimationFrame func
+
+            requestAnimationFrame func
+
 window.Effect = Effect
