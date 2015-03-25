@@ -28,36 +28,39 @@
       this.parent.style.position = 'relative';
       this.parent.style.overflow = 'hidden';
       img = _createImg(options.src);
+      img.style.position = 'absolute';
+      img.style.left = '0%';
+      img.style.top = '0%';
       this.current = img;
       this.parent.appendChild(img);
     }
 
     Effect.prototype.pushLeft = function(imgURL) {
-      var finish, func, newImg;
+      var delta, finish, func, newImg;
       newImg = _createImg(imgURL);
       newImg.style.position = 'absolute';
+      newImg.style.left = '100%';
+      newImg.style.top = '0%';
       this.parent.appendChild(newImg);
-      this.current.style.marginLeft = '0%';
+      delta = 1;
       finish = (function(_this) {
         return function() {
           _this.parent.removeChild(_this.current);
-          newImg.style.position = "";
           return _this.current = newImg;
         };
       })(this);
       func = (function(_this) {
         return function() {
-          if (perfectToDecimal(_this.current.style.marginLeft) <= -1) {
+          if (perfectToDecimal(_this.current.style.left) <= -1) {
             finish();
             return;
           }
-          _this.current.style.marginLeft = percentAdd(_this.current.style.marginLeft, -3);
+          _this.current.style.left = percentAdd(_this.current.style.left, -delta);
+          newImg.style.left = percentAdd(newImg.style.left, -delta);
           return requestAnimationFrame(func);
         };
       })(this);
-      return setTimeout(function() {
-        return requestAnimationFrame(func);
-      }, 1000);
+      return requestAnimationFrame(func);
     };
 
     Effect.prototype.pushRight = function(imgURL) {
@@ -65,34 +68,55 @@
       newImg = _createImg(imgURL);
       newImg.style.position = 'absolute';
       newImg.style.left = '-100%';
-      newImg.style.top = '0';
+      newImg.style.top = '0%';
       this.parent.appendChild(newImg);
-      this.current.style.marginLeft = '0%';
       finish = (function(_this) {
         return function() {
           _this.parent.removeChild(_this.current);
-          newImg.style.position = "";
-          newImg.style.left = "";
-          newImg.style.top = "";
           return _this.current = newImg;
         };
       })(this);
       delta = 1;
       func = (function(_this) {
         return function() {
-          if (perfectToDecimal(_this.current.style.marginLeft) >= 1) {
+          if (perfectToDecimal(_this.current.style.left) >= 1) {
             finish();
             return;
           }
-          _this.current.style.marginLeft = percentAdd(_this.current.style.marginLeft, delta);
+          _this.current.style.left = percentAdd(_this.current.style.left, delta);
           newImg.style.left = percentAdd(newImg.style.left, delta);
           return requestAnimationFrame(func);
         };
       })(this);
-      return setTimeout(function() {
-        console.log('test');
-        return requestAnimationFrame(func);
-      }, 1000);
+      return requestAnimationFrame(func);
+    };
+
+    Effect.prototype.pushDown = function(imgURL) {
+      var delta, finish, func, newImg;
+      newImg = _createImg(imgURL);
+      newImg.style.position = "absolute";
+      newImg.style.top = '-100%';
+      newImg.style.left = '0%';
+      this.parent.appendChild(newImg);
+      finish = (function(_this) {
+        return function() {
+          _this.parent.removeChild(_this.current);
+          return _this.current = newImg;
+        };
+      })(this);
+      delta = 1;
+      func = (function(_this) {
+        return function() {
+          if (perfectToDecimal(_this.current.style.top) >= 1) {
+            finish();
+            return;
+          }
+          _this.current.style.top = percentAdd(_this.current.style.top, delta);
+          newImg.style.top = percentAdd(newImg.style.top, delta);
+          return requestAnimationFrame(func);
+        };
+      })(this);
+      return requestAnimationFrame(func);
     };
 
     return Effect;

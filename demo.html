@@ -21,6 +21,7 @@
 <div>
     <button onclick="pushLeft()">push left</button>
     <button onclick="pushRight()">push right</button>
+    <button onclick="pushDown()">push down</button>
 </div>
 <script>
     (function(){
@@ -35,13 +36,16 @@
             src: imgs[0]
         });
 
-        effect.pushRight(imgs[1]);
-
         window.pushLeft = function(){
             effect.pushLeft(imgs[1]);
         };
+
         window.pushRight = function(){
-            effect.pushRight(imgs[0]);
+            effect.pushRight(imgs[1]);
+        };
+
+        window.pushDown = function(){
+            effect.pushDown(imgs[1]);
         };
     })();
 </script>
