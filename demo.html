@@ -12,33 +12,45 @@
         #effect {
             width: 219px;
             height: 390px;
-            margin: auto;
+            float: left;
+        }
+        .console {
+            margin-left: 300px;
         }
     </style>
 </head>
 <body>
+<h2>js effect</h2>
 <div id="effect"></div>
-<div>
-    <button onclick="ani('pushLeft')">push left</button>
-    <button onclick="ani('pushRight')">push right</button>
-    <button onclick="ani('pushDown')">push down</button>
-    <button onclick="ani('pushUp')">push up</button>
+<div class="console">
+    <div>
+        <h3>push</h3>
+        <button onclick="ani('pushLeft')">push left</button>
+        <button onclick="ani('pushRight')">push right</button>
+        <button onclick="ani('pushDown')">push down</button>
+        <button onclick="ani('pushUp')">push up</button>
+    </div>
 
-    <button onclick="ani('slideUp')">slide up</button>
-    <button onclick="ani('slideDown')">slide down</button>
-    <button onclick="ani('slideLeft')">slide left</button>
-    <button onclick="ani('slideRight')">slide right</button>
+    <div>
+        <h3>slide</h3>
+        <button onclick="ani('slideUp')">slide up</button>
+        <button onclick="ani('slideDown')">slide down</button>
+        <button onclick="ani('slideLeft')">slide left</button>
+        <button onclick="ani('slideRight')">slide right</button>
+    </div>
 
-    <button onclick="ani('expand')">expand</button>
-    <button onclick="ani('fadeIn')">fade in</button>
+    <div>
+        <h3>others</h3>
+        <button onclick="ani('expand')">expand</button>
+        <button onclick="ani('fadeIn')">fade in</button>
+    </div>
 </div>
 <script>
     (function(){
         "use strict";
         var imgs = [
-                "https://file.mockplus.cn/webapp/project/pPuIL2qjV/f8IEvgPZ7.png",
-                "https://file.mockplus.cn/webapp/project/pPuIL2qjV/fOH6gGLOV.png",
-                "https://file.mockplus.cn/webapp/project/pPuIL2qjV/fE145DI1x.png"
+                "./a.png",
+                "./b.png"
         ];
 
         var index = 0;
