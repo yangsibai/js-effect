@@ -19,15 +19,15 @@
 <body>
 <div id="effect"></div>
 <div>
-    <button onclick="pushLeft()">push left</button>
-    <button onclick="pushRight()">push right</button>
-    <button onclick="pushDown()">push down</button>
-    <button onclick="pushUp()">push up</button>
+    <button onclick="ani('pushLeft')">push left</button>
+    <button onclick="ani('pushRight')">push right</button>
+    <button onclick="ani('pushDown')">push down</button>
+    <button onclick="ani('pushUp')">push up</button>
 
-    <button onclick="slideUp()">slide up</button>
-    <button onclick="slideDown()">slide down</button>
-    <button onclick="slideLeft()">slide left</button>
-    <button onclick="slideRight()">slide right</button>
+    <button onclick="ani('slideUp')">slide up</button>
+    <button onclick="ani('slideDown')">slide down</button>
+    <button onclick="ani('slideLeft')">slide left</button>
+    <button onclick="ani('slideRight')">slide right</button>
 </div>
 <script>
     (function(){
@@ -38,41 +38,16 @@
                 "https://file.mockplus.cn/webapp/project/pPuIL2qjV/fE145DI1x.png"
         ];
 
+        var index = 0;
+        var nextImage = function(){
+            return imgs[index++ % imgs.length];
+        };
         var effect = new Effect({
             elem: document.getElementById('effect'),
-            src: imgs[0]
+            src: nextImage()
         });
-
-        window.pushLeft = function(){
-            effect.pushLeft(imgs[1]);
-        };
-
-        window.pushRight = function(){
-            effect.pushRight(imgs[1]);
-        };
-
-        window.pushDown = function(){
-            effect.pushDown(imgs[1]);
-        };
-
-        window.pushUp = function(){
-            effect.pushUp(imgs[2])
-        };
-
-        window.slideUp = function(){
-            effect.slideUp(imgs[2]);
-        };
-
-        window.slideDown = function(){
-            effect.slideDown(imgs[2]);
-        };
-
-        window.slideLeft = function(){
-            effect.slideLeft(imgs[2]);
-        };
-
-        window.slideRight = function(){
-            effect.slideRight(imgs[2]);
+        window.ani = function(name){
+            effect[name](nextImage());
         };
     })();
 </script>
