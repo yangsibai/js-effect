@@ -45,10 +45,7 @@
         var nextImage = function(){
             return imgs[index++ % imgs.length];
         };
-        var effect = new Effect({
-            elem: document.getElementById('effect'),
-            src: nextImage()
-        });
+        var effect = new Effect(document.getElementById('effect'), nextImage());
         window.ani = function(name){
             effect[name](nextImage(), function(){
                 console.log("finished");

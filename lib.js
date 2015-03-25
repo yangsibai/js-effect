@@ -3,17 +3,20 @@
   var Effect;
 
   Effect = (function() {
-    function Effect(options) {
-      this.parent = options.elem;
+    function Effect(elem, init_src, cb) {
+      this.parent = elem;
       this.parent.style.position = 'relative';
       this.parent.style.overflow = 'hidden';
-      this._insertImg(options.src, {
+      this._insertImg(init_src, {
         position: 'absolute',
         left: '0%',
         top: '0%'
       }, (function(_this) {
         return function(img) {
-          return _this.current = img;
+          _this.current = img;
+          if (typeof cb === 'function') {
+            return cb();
+          }
         };
       })(this));
     }
@@ -227,6 +230,13 @@
           return _this.animate.style.opacity = parseFloat(_this.animate.style.opacity) + delta;
         };
       })(this), onAnimateFinished);
+    };
+
+    Effect.prototype.direct = function(imgURL, onFinished) {
+      this.current.src = imgURL;
+      if (typeof onFinished === 'function') {
+        return onFinished();
+      }
     };
 
     return Effect;

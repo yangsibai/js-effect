@@ -1,15 +1,16 @@
 class Effect
-    constructor: (options)->
-        @parent = options.elem
+    constructor: (elem, init_src, cb)->
+        @parent = elem
         @parent.style.position = 'relative'
         @parent.style.overflow = 'hidden'
 
-        @_insertImg options.src,
+        @_insertImg init_src,
             position: 'absolute'
             left: '0%'
             top: '0%'
         , (img)=>
             @current = img
+            cb() if typeof(cb) is 'function'
 
     _insertImg: (src, style, cb)->
         img = document.createElement('img')
@@ -159,5 +160,9 @@ class Effect
             delta = 0.05
             @animate.style.opacity = parseFloat(@animate.style.opacity) + delta
         , onAnimateFinished
+
+    direct: (imgURL, onFinished)->
+        @current.src = imgURL
+        onFinished() if typeof(onFinished) is 'function'
 
 window.Effect = Effect
