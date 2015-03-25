@@ -1,6 +1,6 @@
-##js-effect
+##js-motion
 
-A simple js effect library.
+A small motion library with vanilla JavaScript.
 
 ##demo
 
