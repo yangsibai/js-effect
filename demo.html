@@ -25,6 +25,7 @@
     <button onclick="pushUp()">push up</button>
 
     <button onclick="slideUp()">slide up</button>
+    <button onclick="slideDown()">slide down</button>
 </div>
 <script>
     (function(){
@@ -58,6 +59,10 @@
 
         window.slideUp = function(){
             effect.slideUp(imgs[2]);
+        };
+
+        window.slideDown = function(){
+            effect.slideDown(imgs[2]);
         };
     })();
 </script>

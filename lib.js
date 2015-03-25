@@ -178,6 +178,32 @@
       })(this));
     };
 
+    Effect.prototype.slideDown = function(imgURL) {
+      return _createImg(imgURL, {
+        top: '-100%',
+        left: '0%'
+      }, (function(_this) {
+        return function(newImg) {
+          var delta, finish, func;
+          _this.parent.appendChild(newImg);
+          finish = function() {
+            _this.parent.removeChild(_this.current);
+            return _this.current = newImg;
+          };
+          delta = 1;
+          func = function() {
+            if (perfectToDecimal(newImg.style.top) >= 0) {
+              finish();
+              return;
+            }
+            newImg.style.top = percentAdd(newImg.style.top, delta);
+            return requestAnimationFrame(func);
+          };
+          return requestAnimationFrame(func);
+        };
+      })(this));
+    };
+
     return Effect;
 
   })();
