@@ -1,10 +1,3 @@
-perfectToDecimal = (per)->
-    return parseFloat(per.substring(0, per.length - 1)) / 100.0
-
-percentAdd = (per, delta)->
-    p = parseFloat(per.substring(0, per.length - 1))
-    return (p + delta) + '%'
-
 class Effect
     constructor: (options)->
         @parent = options.elem
@@ -36,17 +29,21 @@ class Effect
         @current = @animate
         @animating = false
 
+    _percentAdd: (per, delta)->
+        p = parseFloat(per.substring(0, per.length - 1))
+        return (p + delta) + '%'
+
     _hasFinishAnimate: ->
         return @animate.style.top is '0%' and @animate.style.left is '0%' and @animate.style.opacity is '1'
 
     _moveCurrentImg: (name, delta)->
-        @current.style[name] = percentAdd(@current.style[name], delta)
+        @current.style[name] = @_percentAdd(@current.style[name], delta)
 
     _moveAnimateImg: (name, delta)->
-        @animate.style[name] = percentAdd(@animate.style[name], delta)
+        @animate.style[name] = @_percentAdd(@animate.style[name], delta)
 
     _changeStyle: (elem, name, delta)->
-        elem.style[name] = percentAdd(elem.style[name], delta)
+        elem.style[name] = @_percentAdd(elem.style[name], delta)
 
     _animate: (src, style, func, onAnimateFinished)->
         unless @animating
