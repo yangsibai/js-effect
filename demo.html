@@ -50,7 +50,9 @@
             src: nextImage()
         });
         window.ani = function(name){
-            effect[name](nextImage());
+            effect[name](nextImage(), function(){
+                console.log("finished");
+            });
         };
     })();
 </script>

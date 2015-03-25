@@ -69,7 +69,7 @@
       return elem.style[name] = percentAdd(elem.style[name], delta);
     };
 
-    Effect.prototype._animate = function(src, style, func) {
+    Effect.prototype._animate = function(src, style, func, onAnimateFinished) {
       if (!this.animating) {
         this.animating = true;
         return this._insertImg(src, style, (function(_this) {
@@ -79,6 +79,9 @@
             lo = function() {
               if (_this._hasFinishAnimate()) {
                 _this._finish();
+                if (typeof onAnimateFinished === 'function') {
+                  onAnimateFinished();
+                }
                 return;
               }
               func();
@@ -90,7 +93,7 @@
       }
     };
 
-    Effect.prototype.pushLeft = function(imgURL) {
+    Effect.prototype.pushLeft = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         left: '100%',
         top: '0%'
@@ -101,10 +104,10 @@
           _this._moveCurrentImg('left', -delta);
           return _this._moveAnimateImg('left', -delta);
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
-    Effect.prototype.pushRight = function(imgURL) {
+    Effect.prototype.pushRight = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         left: '-100%',
         top: '0%'
@@ -115,10 +118,10 @@
           _this._moveCurrentImg('left', delta);
           return _this._moveAnimateImg('left', delta);
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
-    Effect.prototype.pushDown = function(imgURL) {
+    Effect.prototype.pushDown = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         top: '-100%',
         left: '0%'
@@ -129,10 +132,10 @@
           _this._moveCurrentImg('top', delta);
           return _this._moveAnimateImg('top', delta);
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
-    Effect.prototype.pushUp = function(imgURL) {
+    Effect.prototype.pushUp = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         top: '100%',
         left: '0%'
@@ -143,10 +146,10 @@
           _this._moveCurrentImg('top', -delta);
           return _this._moveAnimateImg('top', -delta);
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
-    Effect.prototype.slideUp = function(imgURL) {
+    Effect.prototype.slideUp = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         top: '100%',
         left: '0%'
@@ -156,10 +159,10 @@
           delta = 1;
           return _this._moveAnimateImg('top', -delta);
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
-    Effect.prototype.slideDown = function(imgURL) {
+    Effect.prototype.slideDown = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         top: '-100%',
         left: '0%'
@@ -169,10 +172,10 @@
           delta = 1;
           return _this._moveAnimateImg('top', delta);
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
-    Effect.prototype.slideLeft = function(imgURL) {
+    Effect.prototype.slideLeft = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         top: '0%',
         left: '100%'
@@ -182,10 +185,10 @@
           delta = 1;
           return _this._moveAnimateImg('left', -delta);
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
-    Effect.prototype.slideRight = function(imgURL) {
+    Effect.prototype.slideRight = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         top: '0%',
         left: '-100%'
@@ -195,10 +198,10 @@
           delta = 1;
           return _this._moveAnimateImg('left', delta);
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
-    Effect.prototype.expand = function(imgURL) {
+    Effect.prototype.expand = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         top: '50%',
         left: '50%',
@@ -213,10 +216,10 @@
           _this._changeStyle(_this.animate, 'top', -delta);
           return _this._changeStyle(_this.animate, 'left', -delta);
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
-    Effect.prototype.fadeIn = function(imgURL) {
+    Effect.prototype.fadeIn = function(imgURL, onAnimateFinished) {
       return this._animate(imgURL, {
         top: '0%',
         left: '0%',
@@ -227,7 +230,7 @@
           delta = 0.05;
           return _this.animate.style.opacity = parseFloat(_this.animate.style.opacity) + delta;
         };
-      })(this));
+      })(this), onAnimateFinished);
     };
 
     return Effect;

@@ -48,7 +48,7 @@ class Effect
     _changeStyle: (elem, name, delta)->
         elem.style[name] = percentAdd(elem.style[name], delta)
 
-    _animate: (src, style, func)->
+    _animate: (src, style, func, onAnimateFinished)->
         unless @animating
             @animating = true
             @_insertImg src, style, (img)=>
@@ -56,13 +56,14 @@ class Effect
                 lo = =>
                     if @_hasFinishAnimate()
                         @_finish()
+                        onAnimateFinished() if typeof(onAnimateFinished) is 'function'
                         return
                     func()
                     requestAnimationFrame lo
 
                 requestAnimationFrame lo
 
-    pushLeft: (imgURL)->
+    pushLeft: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             left: '100%'
             top: '0%'
@@ -70,8 +71,9 @@ class Effect
             delta = 1
             @_moveCurrentImg('left', -delta)
             @_moveAnimateImg('left', -delta)
+        , onAnimateFinished
 
-    pushRight: (imgURL)->
+    pushRight: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             left: '-100%'
             top: '0%'
@@ -79,8 +81,9 @@ class Effect
             delta = 1
             @_moveCurrentImg('left', delta)
             @_moveAnimateImg('left', delta)
+        , onAnimateFinished
 
-    pushDown: (imgURL)->
+    pushDown: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             top: '-100%'
             left: '0%'
@@ -88,8 +91,9 @@ class Effect
             delta = 1
             @_moveCurrentImg('top', delta)
             @_moveAnimateImg('top', delta)
+        , onAnimateFinished
 
-    pushUp: (imgURL)->
+    pushUp: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             top: '100%'
             left: '0%'
@@ -97,40 +101,45 @@ class Effect
             delta = 1
             @_moveCurrentImg('top', -delta)
             @_moveAnimateImg('top', -delta)
+        , onAnimateFinished
 
-    slideUp: (imgURL)->
+    slideUp: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             top: '100%'
             left: '0%'
         , =>
             delta = 1
             @_moveAnimateImg('top', -delta)
+        , onAnimateFinished
 
-    slideDown: (imgURL)->
+    slideDown: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             top: '-100%'
             left: '0%'
         , =>
             delta = 1
             @_moveAnimateImg('top', delta)
+        , onAnimateFinished
 
-    slideLeft: (imgURL)->
+    slideLeft: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             top: '0%'
             left: '100%'
         , =>
             delta = 1
             @_moveAnimateImg('left', -delta)
+        , onAnimateFinished
 
-    slideRight: (imgURL)->
+    slideRight: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             top: '0%'
             left: '-100%'
         , =>
             delta = 1
             @_moveAnimateImg('left', delta)
+        , onAnimateFinished
 
-    expand: (imgURL)->
+    expand: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             top: '50%'
             left: '50%'
@@ -142,8 +151,9 @@ class Effect
             @_changeStyle(@animate, 'height', delta * 2)
             @_changeStyle(@animate, 'top', -delta)
             @_changeStyle(@animate, 'left', -delta)
+        , onAnimateFinished
 
-    fadeIn: (imgURL)->
+    fadeIn: (imgURL, onAnimateFinished)->
         @_animate imgURL,
             top: '0%'
             left: '0%'
@@ -151,5 +161,6 @@ class Effect
         , =>
             delta = 0.05
             @animate.style.opacity = parseFloat(@animate.style.opacity) + delta
+        , onAnimateFinished
 
 window.Effect = Effect
