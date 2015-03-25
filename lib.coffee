@@ -35,13 +35,16 @@ class Effect
         @current = @animate
 
     _hasFinishAnimate: ->
-        return @animate.style.top is '0%' and @animate.style.left is '0%'
+        return @animate.style.top is '0%' and @animate.style.left is '0%' and @animate.style.opacity is '1'
 
     _moveCurrentImg: (name, delta)->
         @current.style[name] = percentAdd(@current.style[name], delta)
 
     _moveAnimateImg: (name, delta)->
         @animate.style[name] = percentAdd(@animate.style[name], delta)
+
+    _changeStyle: (elem, name, delta)->
+        elem.style[name] = percentAdd(elem.style[name], delta)
 
     _animate: (src, style, func)->
         @_insertImg src, style, (img)=>
@@ -122,5 +125,27 @@ class Effect
         , =>
             delta = 1
             @_moveAnimateImg('left', delta)
+
+    expand: (imgURL)->
+        @_animate imgURL,
+            top: '50%'
+            left: '50%'
+            width: '0'
+            height: '0'
+        , =>
+            delta = 1
+            @_changeStyle(@animate, 'width', delta * 2)
+            @_changeStyle(@animate, 'height', delta * 2)
+            @_changeStyle(@animate, 'top', -delta)
+            @_changeStyle(@animate, 'left', -delta)
+
+    fadeIn: (imgURL)->
+        @_animate imgURL,
+            top: '0%'
+            left: '0%'
+            opacity: '0'
+        , =>
+            delta = 0.05
+            @animate.style.opacity = parseFloat(@animate.style.opacity) + delta
 
 window.Effect = Effect

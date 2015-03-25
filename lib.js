@@ -52,7 +52,7 @@
     };
 
     Effect.prototype._hasFinishAnimate = function() {
-      return this.animate.style.top === '0%' && this.animate.style.left === '0%';
+      return this.animate.style.top === '0%' && this.animate.style.left === '0%' && this.animate.style.opacity === '1';
     };
 
     Effect.prototype._moveCurrentImg = function(name, delta) {
@@ -61,6 +61,10 @@
 
     Effect.prototype._moveAnimateImg = function(name, delta) {
       return this.animate.style[name] = percentAdd(this.animate.style[name], delta);
+    };
+
+    Effect.prototype._changeStyle = function(elem, name, delta) {
+      return elem.style[name] = percentAdd(elem.style[name], delta);
     };
 
     Effect.prototype._animate = function(src, style, func) {
@@ -185,6 +189,38 @@
           var delta;
           delta = 1;
           return _this._moveAnimateImg('left', delta);
+        };
+      })(this));
+    };
+
+    Effect.prototype.expand = function(imgURL) {
+      return this._animate(imgURL, {
+        top: '50%',
+        left: '50%',
+        width: '0',
+        height: '0'
+      }, (function(_this) {
+        return function() {
+          var delta;
+          delta = 1;
+          _this._changeStyle(_this.animate, 'width', delta * 2);
+          _this._changeStyle(_this.animate, 'height', delta * 2);
+          _this._changeStyle(_this.animate, 'top', -delta);
+          return _this._changeStyle(_this.animate, 'left', -delta);
+        };
+      })(this));
+    };
+
+    Effect.prototype.fadeIn = function(imgURL) {
+      return this._animate(imgURL, {
+        top: '0%',
+        left: '0%',
+        opacity: '0'
+      }, (function(_this) {
+        return function() {
+          var delta;
+          delta = 0.05;
+          return _this.animate.style.opacity = parseFloat(_this.animate.style.opacity) + delta;
         };
       })(this));
     };
