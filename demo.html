@@ -23,6 +23,8 @@
     <button onclick="pushRight()">push right</button>
     <button onclick="pushDown()">push down</button>
     <button onclick="pushUp()">push up</button>
+
+    <button onclick="slideUp()">slide up</button>
 </div>
 <script>
     (function(){
@@ -52,7 +54,11 @@
 
         window.pushUp = function(){
             effect.pushUp(imgs[2])
-        }
+        };
+
+        window.slideUp = function(){
+            effect.slideUp(imgs[2]);
+        };
     })();
 </script>
 </body>

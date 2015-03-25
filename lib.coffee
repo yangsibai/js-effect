@@ -122,4 +122,27 @@ class Effect
 
             requestAnimationFrame func
 
+    slideUp: (imgURL)->
+        _createImg imgURL,
+            top: '100%'
+            left: '0%'
+        , (newImg)=>
+            @parent.appendChild(newImg)
+
+            finish = =>
+                @parent.removeChild(@current)
+                @current = newImg
+
+            delta = 1
+
+            func = =>
+                if perfectToDecimal(newImg.style.top) <= 0
+                    finish()
+                    return
+
+                newImg.style.top = percentAdd(newImg.style.top, -delta)
+                requestAnimationFrame func
+
+            requestAnimationFrame func
+
 window.Effect = Effect
