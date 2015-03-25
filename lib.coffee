@@ -64,6 +64,7 @@ class Effect
         for k of style
             img.style[k] = style[k]
         img.onload = =>
+            img.onload = null
             @parent.appendChild(img)
             cb img
 

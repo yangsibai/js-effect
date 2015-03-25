@@ -79,6 +79,7 @@
       }
       return img.onload = (function(_this) {
         return function() {
+          img.onload = null;
           _this.parent.appendChild(img);
           return cb(img);
         };
