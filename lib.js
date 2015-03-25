@@ -204,6 +204,32 @@
       })(this));
     };
 
+    Effect.prototype.slideLeft = function(imgURL) {
+      return _createImg(imgURL, {
+        top: '0%',
+        left: '100%'
+      }, (function(_this) {
+        return function(newImg) {
+          var delta, finish, func;
+          _this.parent.appendChild(newImg);
+          finish = function() {
+            _this.parent.removeChild(_this.current);
+            return _this.current = newImg;
+          };
+          delta = 1;
+          func = function() {
+            if (perfectToDecimal(newImg.style.left) <= 0) {
+              finish();
+              return;
+            }
+            newImg.style.left = percentAdd(newImg.style.left, -delta);
+            return requestAnimationFrame(func);
+          };
+          return requestAnimationFrame(func);
+        };
+      })(this));
+    };
+
     return Effect;
 
   })();

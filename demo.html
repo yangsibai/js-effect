@@ -26,6 +26,7 @@
 
     <button onclick="slideUp()">slide up</button>
     <button onclick="slideDown()">slide down</button>
+    <button onclick="slideLeft()">slide left</button>
 </div>
 <script>
     (function(){
@@ -64,6 +65,10 @@
         window.slideDown = function(){
             effect.slideDown(imgs[2]);
         };
+
+        window.slideLeft = function(){
+            effect.slideLeft(imgs[2]);
+        }
     })();
 </script>
 </body>
