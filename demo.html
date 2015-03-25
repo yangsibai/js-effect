@@ -22,6 +22,7 @@
     <button onclick="pushLeft()">push left</button>
     <button onclick="pushRight()">push right</button>
     <button onclick="pushDown()">push down</button>
+    <button onclick="pushUp()">push up</button>
 </div>
 <script>
     (function(){
@@ -31,6 +32,7 @@
                 "https://file.mockplus.cn/webapp/project/pPuIL2qjV/fOH6gGLOV.png",
                 "https://file.mockplus.cn/webapp/project/pPuIL2qjV/fE145DI1x.png"
         ];
+
         var effect = new Effect({
             elem: document.getElementById('effect'),
             src: imgs[0]
@@ -47,6 +49,10 @@
         window.pushDown = function(){
             effect.pushDown(imgs[1]);
         };
+
+        window.pushUp = function(){
+            effect.pushUp(imgs[2])
+        }
     })();
 </script>
 </body>
